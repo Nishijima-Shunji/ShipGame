@@ -2,10 +2,17 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\ykrsi\OneDrive\デスクトップ\ShipGame\ShipGame\x64\Debug\ShipGame.exe</FullPath>
+      <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\ShipGame.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
-  <ContentFiles />
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\PixelShader.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\VertexShader.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
   <SatelliteDlls />
   <NonRecipeFileRefs />
 </Project>

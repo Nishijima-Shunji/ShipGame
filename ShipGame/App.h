@@ -1,34 +1,44 @@
 #pragma once
-#include <windows.h>
-#include <d3d11.h>
-#include <DirectXMath.h>
-#include <wrl/client.h>
 
-using namespace Microsoft::WRL;
+#include    <Windows.h>
+#include    <cstdint>
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-class DX11App {
-private:
-    bool InitWindow(HINSTANCE hInstance);
-    bool InitDirect3D();
-    void Render();
-
-    HWND hWnd;
-    int width, height;
-    ComPtr<ID3D11Device> device;
-    ComPtr<ID3D11DeviceContext> deviceContext;
-    ComPtr<IDXGISwapChain> swapChain;
-    ComPtr<ID3D11RenderTargetView> renderTargetView;
-    ComPtr<ID3D11Buffer> vertexBuffer;
-    ComPtr<ID3D11InputLayout> inputLayout;
-    ComPtr<ID3D11VertexShader> vertexShader;
-    ComPtr<ID3D11PixelShader> pixelShader;
-
-
+//-----------------------------------------------------------------------------
+// Appクラス
+//-----------------------------------------------------------------------------
+class App
+{
 public:
-    DX11App() : hWnd(nullptr), width(1280), height(720) {}
-    bool Initialize(HINSTANCE hInstance);
+    App(uint32_t width, uint32_t height);
+    ~App();
     void Run();
-    void Cleanup();
+
+    // 幅を取得
+    static uint32_t GetWidth() {
+        return m_Width;
+    }
+
+    // 高さを取得
+    static uint32_t GetHeight() {
+        return m_Height;
+    }
+
+    // ウインドウハンドルを返す
+    static HWND GetWindow() {
+        return m_hWnd;
+    }
+
+private:
+    static HINSTANCE   m_hInst;        // インスタンスハンドル
+    static HWND        m_hWnd;         // ウィンドウハンドル
+    static uint32_t    m_Width;        // ウィンドウの横幅
+    static uint32_t    m_Height;       // ウィンドウの縦幅
+
+    static bool InitApp();
+    static void TermApp();
+    static bool InitWnd();
+    static void TermWnd();
+    static void MainLoop();
+
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp);
 };

@@ -1,2 +1,7 @@
-﻿  App.cpp
-  ShipGame.vcxproj -> C:\Users\ykrsi\OneDrive\デスクトップ\ShipGame\ShipGame\x64\Debug\ShipGame.exe
+﻿directxtk.lib(SimpleMath.obj) : error LNK2038: 'RuntimeLibrary' の不一致が検出されました。値 'MTd_StaticDebug' が MDd_DynamicDebug の値 'App.obj' と一致しません。
+directxtk.lib(pch.obj) : error LNK2038: 'RuntimeLibrary' の不一致が検出されました。値 'MTd_StaticDebug' が MDd_DynamicDebug の値 'App.obj' と一致しません。
+LINK : warning LNK4098: defaultlib 'LIBCMTD' は他のライブラリの使用と競合しています。/NODEFAULTLIB:library を使用してください。
+App.obj : error LNK2019: 未解決の外部シンボル __imp_timeBeginPeriod が関数 "public: __cdecl App::App(unsigned int,unsigned int)" (??0App@@QEAA@II@Z) で参照されました
+App.obj : error LNK2019: 未解決の外部シンボル __imp_timeEndPeriod が関数 "public: __cdecl App::~App(void)" (??1App@@QEAA@XZ) で参照されました
+MSVCRTD.lib(exe_winmain.obj) : error LNK2019: 未解決の外部シンボル WinMain が関数 "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ) で参照されました
+C:\GitLocal\ShipGame\ShipGame\x64\Debug\ShipGame.exe : fatal error LNK1120: 3 件の未解決の外部参照

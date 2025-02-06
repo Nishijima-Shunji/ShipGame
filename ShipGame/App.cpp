@@ -1,107 +1,274 @@
+#include <chrono>
+#include <thread>
 #include "App.h"
+#include "Renderer.h"
 
-bool DX11App::Initialize(HINSTANCE hInstance) {
-    if (!InitWindow(hInstance)) return false;
-    if (!InitDirect3D()) return false;
-    return true;
+#include "Game.h"
+
+const auto ClassName = TEXT("2024 framework ひな型");     //!< ウィンドウクラス名.
+const auto WindowName = TEXT("2024 framework ひな型(フィールド描画)");    //!< ウィンドウ名.
+
+HINSTANCE  App::m_hInst;        // インスタンスハンドル
+HWND       App::m_hWnd;         // ウィンドウハンドル
+uint32_t   App::m_Width;        // ウィンドウの横幅
+uint32_t   App::m_Height;       // ウィンドウの縦幅
+
+//-----------------------------------------------------------------------------
+// コンストラクタ
+//-----------------------------------------------------------------------------
+App::App(uint32_t width, uint32_t height)
+{
+	m_Height = height;
+	m_Width = width;
+
+	timeBeginPeriod(1);
 }
 
-bool DX11App::InitWindow(HINSTANCE hInstance) {
-    WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"DX11ShipGame", NULL };
-    RegisterClassEx(&wc);
-    hWnd = CreateWindow(wc.lpszClassName, L"DirectX 11 Ship Game", WS_OVERLAPPEDWINDOW, 100, 100, width, height, NULL, NULL, wc.hInstance, NULL);
-    if (!hWnd) return false;
-    ShowWindow(hWnd, SW_SHOW);
-    return true;
+//-----------------------------------------------------------------------------
+// デストラクタ
+//-----------------------------------------------------------------------------
+App::~App()
+{
+	timeEndPeriod(1);
 }
 
-bool DX11App::InitDirect3D() {
-    DXGI_SWAP_CHAIN_DESC scd = {};
-    scd.BufferCount = 1;
-    scd.BufferDesc.Width = width;
-    scd.BufferDesc.Height = height;
-    scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    scd.OutputWindow = hWnd;
-    scd.SampleDesc.Count = 1;
-    scd.Windowed = TRUE;
+//-----------------------------------------------------------------------------
+// 実行
+//-----------------------------------------------------------------------------
+void App::Run()
+{
+	if (InitApp())
+	{
+		MainLoop();
+	}
 
-    HRESULT hr = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, NULL, 0, D3D11_SDK_VERSION,
-        &scd, &swapChain, &device, NULL, &deviceContext);
-    if (FAILED(hr)) return false;
-
-    ComPtr<ID3D11Texture2D> backBuffer;
-    swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(backBuffer.GetAddressOf()));
-    device->CreateRenderTargetView(backBuffer.Get(), NULL, &renderTargetView);
-
-    struct Vertex {
-        DirectX::XMFLOAT3 position;
-        DirectX::XMFLOAT4 color;
-    };
-
-    // 船を表現する四角形の頂点データ（2D のため Z = 0）
-    Vertex vertices[] = {
-        { {-0.1f,  0.1f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f} }, // 左上
-        { { 0.1f,  0.1f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f} }, // 右上
-        { {-0.1f, -0.1f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f} }, // 左下
-        { { 0.1f, -0.1f, 0.0f}, {1.0f, 1.0f, 1.0f, 1.0f} }  // 右下
-    };
-
-    D3D11_BUFFER_DESC bd = {};
-    bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(vertices);
-    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-    bd.CPUAccessFlags = 0;
-
-    D3D11_SUBRESOURCE_DATA initData = {};
-    initData.pSysMem = vertices;
-
-    HRESULT hr = device->CreateBuffer(&bd, &initData, &vertexBuffer);
-    if (FAILED(hr)) return false;
-
-
-    return true;
+	TermApp();
 }
 
-void DX11App::Render() {
-    float clearColor[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
-    deviceContext->ClearRenderTargetView(renderTargetView.Get(), clearColor);
-    swapChain->Present(1, 0);
+//-----------------------------------------------------------------------------
+// 初期化処理
+//-----------------------------------------------------------------------------
+bool App::InitApp()
+{
+	// ウィンドウの初期化.
+	if (!InitWnd())
+	{
+		return false;
+	}
 
+	// 正常終了.
+	return true;
 }
 
-void DX11App::Run() {
-    MSG msg = {};
-    while (msg.message != WM_QUIT) {
-        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
-        }
-        Render();
-    }
+//-----------------------------------------------------------------------------
+// 終了処理
+//-----------------------------------------------------------------------------
+void App::TermApp()
+{
+	// ウィンドウの終了処理.
+	TermWnd();
 }
 
-void DX11App::Cleanup() {
-    if (renderTargetView) renderTargetView.Reset();
-    if (swapChain) swapChain.Reset();
-    if (deviceContext) deviceContext.Reset();
-    if (device) device.Reset();
-    UnregisterClass(L"DX11ShipGame", GetModuleHandle(NULL));
+//-----------------------------------------------------------------------------
+// ウィンドウの初期化処理
+//-----------------------------------------------------------------------------
+bool App::InitWnd()
+{
+	// インスタンスハンドルを取得.
+	auto hInst = GetModuleHandle(nullptr);
+	if (hInst == nullptr)
+	{
+		return false;
+	}
+
+	// ウィンドウの設定.
+	WNDCLASSEX wc = {};
+	wc.cbSize = sizeof(WNDCLASSEX);
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = WndProc;
+	wc.hIcon = LoadIcon(hInst, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(hInst, IDC_ARROW);
+	wc.hbrBackground = GetSysColorBrush(COLOR_BACKGROUND);
+	wc.lpszMenuName = nullptr;
+	wc.lpszClassName = ClassName;
+	wc.hIconSm = LoadIcon(hInst, IDI_APPLICATION);
+
+	// ウィンドウの登録.
+	if (!RegisterClassEx(&wc))
+	{
+		return false;
+	}
+
+	// インスタンスハンドル設定.
+	m_hInst = hInst;
+
+	// ウィンドウのサイズを設定.
+	RECT rc = {};
+	rc.right = static_cast<LONG>(m_Width);
+	rc.bottom = static_cast<LONG>(m_Height);
+
+	// ウィンドウサイズを調整.
+	auto style = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+	AdjustWindowRect(&rc, style, FALSE);
+
+	// ウィンドウを生成.
+	m_hWnd = CreateWindowEx(
+		0,
+		//        WS_EX_TOPMOST,
+		ClassName,
+		WindowName,
+		style,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		rc.right - rc.left,
+		rc.bottom - rc.top,
+		nullptr,
+		nullptr,
+		m_hInst,
+		nullptr);
+
+	if (m_hWnd == nullptr)
+	{
+		return false;
+	}
+
+	// ウィンドウを表示.
+	ShowWindow(m_hWnd, SW_SHOWNORMAL);
+
+	// ウィンドウを更新.
+	UpdateWindow(m_hWnd);
+
+	// ウィンドウにフォーカスを設定.
+	SetFocus(m_hWnd);
+
+	// 正常終了.
+	return true;
 }
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
-    switch (message) {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-    }
-    return DefWindowProc(hWnd, message, wParam, lParam);
+//-----------------------------------------------------------------------------
+// ウィンドウの終了処理
+//-----------------------------------------------------------------------------
+void App::TermWnd()
+{
+	// ウィンドウの登録を解除.
+	if (m_hInst != nullptr)
+	{
+		UnregisterClass(ClassName, m_hInst);
+	}
+
+	m_hInst = nullptr;
+	m_hWnd = nullptr;
 }
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) {
-    DX11App app;
-    if (!app.Initialize(hInstance)) return 1;
-    app.Run();
-    app.Cleanup();
-    return 0;
+//-----------------------------------------------------------------------------
+// メインループ
+//-----------------------------------------------------------------------------
+void App::MainLoop()
+{
+	MSG msg = {};
+
+	Game::Init();
+
+	// FPS計測用変数
+	int fpsCounter = 0;
+	long long oldTick = GetTickCount64(); // 前回計測時の時間
+	long long nowTick = oldTick; // 今回計測時の時間
+
+	// FPS固定用変数
+	LARGE_INTEGER liWork; // workがつく変数は作業用変数
+	long long frequency;// どれくらい細かく時間をカウントできるか
+	QueryPerformanceFrequency(&liWork);
+	frequency = liWork.QuadPart;
+	// 時間（単位：カウント）取得
+	QueryPerformanceCounter(&liWork);
+	long long oldCount = liWork.QuadPart;// 前回計測時の時間
+	long long nowCount = oldCount;// 今回計測時の時間
+
+
+	// ゲームループ
+	while (1)
+	{
+		// 新たにメッセージがあれば
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			// ウィンドウプロシージャにメッセージを送る
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+
+			// 「WM_QUIT」メッセージを受け取ったらループを抜ける
+			if (msg.message == WM_QUIT) {
+				break;
+			}
+		}
+		else
+		{
+			QueryPerformanceCounter(&liWork);// 現在時間を取得
+			nowCount = liWork.QuadPart;
+			// 1/60秒が経過したか？
+			if (nowCount >= oldCount + frequency / 60) {
+
+
+
+				// ゲーム処理実行
+
+				// 更新
+				Game::Update();
+
+				Game::Draw();
+
+
+				fpsCounter++; // ゲーム処理を実行したら＋１する
+				oldCount = nowCount;
+			}
+
+
+		}
+	}
+
+	// テストプレーン終了処理
+	Game::Uninit();
+
+	// 描画終了処理
+	Renderer::Uninit();
+}
+
+//-----------------------------------------------------------------------------
+// ウィンドウプロシージャ
+//-----------------------------------------------------------------------------
+LRESULT CALLBACK App::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_DESTROY:// ウィンドウ破棄のメッセージ
+	{
+		PostQuitMessage(0);// 「WM_QUIT」メッセージを送る　→　アプリ終了
+	}
+	break;
+
+	case WM_CLOSE:  // 「x」ボタンが押されたら
+	{
+		int res = MessageBoxA(NULL, "終了しますか？", "確認", MB_OKCANCEL);
+		if (res == IDOK) {
+			DestroyWindow(hWnd);  // 「WM_DESTROY」メッセージを送る
+		}
+	}
+	break;
+
+	case WM_KEYDOWN: //キー入力があったメッセージ
+	{
+		if (LOWORD(wParam) == VK_ESCAPE) { //入力されたキーがESCAPEなら
+			PostMessage(hWnd, WM_CLOSE, wParam, lParam);//「WM_CLOSE」を送る
+		}
+	}
+	break;
+
+	default:
+	{   // 受け取ったメッセージに対してデフォルトの処理を実行
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+		break;
+	}
+
+	}
+
+	return 0;
 }
