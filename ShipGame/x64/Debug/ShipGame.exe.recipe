@@ -10,6 +10,12 @@
       <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\PixelShader.cso</FullPath>
     </ContentFile>
     <ContentFile>
+      <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\unlitTexturePS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\unlitTextureVS.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
       <FullPath>C:\GitLocal\ShipGame\ShipGame\x64\Debug\VertexShader.cso</FullPath>
     </ContentFile>
   </ContentFiles>

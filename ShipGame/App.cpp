@@ -208,12 +208,10 @@ void App::MainLoop()
 			if (nowCount >= oldCount + frequency / 60) {
 
 
-
-				// ゲーム処理実行
-
 				// 更新
 				Game::Update();
 
+				// 描画
 				Game::Draw();
 
 

@@ -13,41 +13,152 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="描画">
+      <UniqueIdentifier>{81bcbd5a-5317-46f0-8e8b-f9d311922afc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="描画\.h">
+      <UniqueIdentifier>{9d07d995-63b8-4cd4-a3eb-23ee9ccbbf2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="基礎">
+      <UniqueIdentifier>{960aa7f8-db7d-45ff-a68e-939350a766dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="基礎\.h">
+      <UniqueIdentifier>{0109fb05-c89e-4ec6-90b0-4cbd82bef1e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{dff97b2b-f54f-42fc-b8cf-e6c39c4ec80e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\.h">
+      <UniqueIdentifier>{e793b5f7-41d9-4baf-be27-b0b0a0b332b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{61b8808e-eafe-45d2-97bc-1a10131270e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\.h">
+      <UniqueIdentifier>{011a0942-d370-4984-a60e-a17b13614b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{65cf2987-a882-4709-a21c-9ef10e3431ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="shader\common.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>shader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>描画\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>基礎\.h</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>基礎\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>基礎\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>描画\.h</Filter>
     </ClInclude>
     <ClInclude Include="Object.h">
+      <Filter>Object\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>描画\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="dx11helper.h">
+      <Filter>描画\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
+      <Filter>Object\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>描画\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>描画\.h</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Object\.h</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Renderer.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>描画</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>基礎</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>基礎</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>基礎</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>描画</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>描画</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="dx11helper.cpp">
+      <Filter>描画</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>描画</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>描画</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
