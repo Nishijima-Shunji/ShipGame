@@ -1,4 +1,45 @@
-﻿  Camera.cpp
+﻿  App.cpp
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(16): warning C4305: '初期化中': 'double' から 'const float' へ切り詰めます。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(18,51): warning C4244: '初期化中': 'double' から 'const float' への変換です。データが失われる可能性があります。
+  Camera.cpp
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(16): warning C4305: '初期化中': 'double' から 'const float' へ切り詰めます。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(18,51): warning C4244: '初期化中': 'double' から 'const float' への変換です。データが失われる可能性があります。
+  Game.cpp
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(16): warning C4305: '初期化中': 'double' から 'const float' へ切り詰めます。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(18,51): warning C4244: '初期化中': 'double' から 'const float' への変換です。データが失われる可能性があります。
+  Ground.cpp
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(36,76): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(36,50): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(37,75): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(37,49): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(38,77): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(38,50): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(39,77): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(39,50): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(40,75): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(40,49): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(41,76): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Ground.cpp(41,49): warning C4244: '引数': 'double' から 'float' への変換です。データが失われる可能性があります。
+  Object.cpp
+  Particle.cpp
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(16): warning C4305: '初期化中': 'double' から 'const float' へ切り詰めます。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(18,51): warning C4244: '初期化中': 'double' から 'const float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.cpp(56,28): warning C4244: '+=': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.cpp(94,36): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.cpp(100,37): warning C4244: '初期化中': 'double' から 'float' への変換です。データが失われる可能性があります。
+  Texture2D.cpp
   TitleScene.cpp
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(16): warning C4305: '初期化中': 'double' から 'const float' へ切り詰めます。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(18,51): warning C4244: '初期化中': 'double' から 'const float' への変換です。データが失われる可能性があります。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(24,10): error C2661: 'std::vector<Particle *,std::allocator<Particle *>>::push_back': 0 個の引数を伴うオーバーロードされた関数はありません。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(24,10): message : 引数リスト '()' を一致させようとしているとき
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(35,12): error C2660: 'Particle::CalcDensity': 関数に 0 個の引数を指定できません。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(37,7): message : 'Particle::CalcDensity' の宣言を確認してください
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(35,12): message : 引数リスト '()' を一致させようとしているとき
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(36,12): error C2660: 'Particle::CalcPressure': 関数に 0 個の引数を指定できません。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(38,7): message : 'Particle::CalcPressure' の宣言を確認してください
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(36,12): message : 引数リスト '()' を一致させようとしているとき
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(37,12): error C2660: 'Particle::CalcForce': 関数に 0 個の引数を指定できません。
+C:\GitLocal\ShipGame\ShipGame\ShipGame\Particle.h(39,7): message : 'Particle::CalcForce' の宣言を確認してください
+C:\GitLocal\ShipGame\ShipGame\ShipGame\TitleScene.cpp(37,12): message : 引数リスト '()' を一致させようとしているとき
   コードを生成中...
-  ShipGame.vcxproj -> C:\GitLocal\ShipGame\ShipGame\x64\Debug\ShipGame.exe

@@ -69,60 +69,6 @@ void Ground::Init()
 			indices[n + 5] = n + 5;
 		}
 	}
-	//読み込む画像ファイルのパス
-	const char* filename = "assets/texture/terain2.png";
-
-	//画像データを格納するポインタ
-	unsigned char* imageData = nullptr;
-	int width, height, channels;
-
-	//グレースケール(1チャネル)で画像を読み込む
-	imageData = stbi_load(filename, &width, &height, &channels, 1);
-	if (imageData) {
-		for (int z = 0; z < m_SizeZ; z++) {
-			for (int x = 0; x < m_SizeX; x++) {
-				int picX = x * (float)width / m_SizeX;
-				int picY = z * (float)height / m_SizeZ;
-				unsigned char pixelValue = imageData[picY * width + picX];
-				float h = (float)pixelValue / 15.0f;
-				int n = z * m_SizeZ * 6 + x * 6;
-				m_Vertices[n + 0].position.y = h;
-				if (x != 0)m_Vertices[n - 2].position.y = h;
-				if (x != 0)m_Vertices[n - 5].position.y = h;
-				if (z != 0)m_Vertices[n - m_SizeX * 6 + 2].position.y = h;
-				if (z != 0)m_Vertices[n - m_SizeX * 6 + 3].position.y = h;
-				if (x != 0 && z != 0)m_Vertices[n - m_SizeX * 6 - 1].position.y = h;
-			}
-		}
-
-		//法線ベクトルを更新
-		for (int z = 0; z < m_SizeZ; z++) {
-			for (int x = 0; x < m_SizeX; x++) {
-				int n = z * m_SizeZ * 6 + x * 6;
-
-				//2つのベクトルを計算
-				Vector3 v1 = m_Vertices[n + 1].position - m_Vertices[n + 0].position;
-				Vector3 v2 = m_Vertices[n + 2].position - m_Vertices[n + 0].position;
-				Vector3 normal = v1.Cross(v2);	//外積を計算
-				normal.Normalize();				//正規化
-				m_Vertices[n + 0].normal = normal;
-				m_Vertices[n + 1].normal = normal;
-				m_Vertices[n + 2].normal = normal;
-
-				//2つのベクトルを計算
-				v1 = m_Vertices[n + 4].position - m_Vertices[n + 3].position;
-				v2 = m_Vertices[n + 5].position - m_Vertices[n + 3].position;
-				normal = v1.Cross(v2);	//外積を計算
-				normal.Normalize();				//正規化
-				m_Vertices[n + 3].normal = normal;
-				m_Vertices[n + 4].normal = normal;
-				m_Vertices[n + 5].normal = normal;
-			}
-		}
-
-		//メモリを解放
-		stbi_image_free(imageData);
-	}
 
 	// 頂点バッファ生成
 	m_VertexBuffer.Create(m_Vertices);
@@ -132,11 +78,9 @@ void Ground::Init()
 
 	// シェーダオブジェクト生成
 	m_Shader.Create("shader/litTextureVS.hlsl", "shader/litTexturePS.hlsl");
-	//m_Shader.Create("shader/WaveVS.hlsl", "shader/litTexturePS.hlsl");
 
 	//テクスチャロード
-	bool sts = m_Texture.Load("assets/texture/field.jpg");
-	// bool sts = m_Texture.Load("assets/texture/water.jpg");
+	bool sts = m_Texture.Load("assets/texture/field.png");
 	assert(sts = true);
 
 	//マテリアル情報取得
@@ -246,6 +190,12 @@ void Ground::Draw()
 	TimerBufferType timerData = {};
 	timerData.Timer = currentTime; // 現在時間を設定
 
+	std::vector<float> heightMap(6);
+	for (int i = 0; i < heightMap.size(); ++i) {
+		heightMap[i] = sinf(i * 0.1f + currentTime); // ノイズ代わり
+	}
+
+
 	if (devicecontext == nullptr) {
 		return; // または適切なエラーハンドリング
 	}
@@ -262,7 +212,6 @@ void Ground::Draw()
 	// 定数バッファをスロット b6 にバインド
 	devicecontext->VSSetConstantBuffers(6, 1, &m_timerBuffer); // 頂点シェーダー用
 	devicecontext->PSSetConstantBuffers(6, 1, &m_timerBuffer); // ピクセルシェーダー用
-
 }
 
 //=======================================

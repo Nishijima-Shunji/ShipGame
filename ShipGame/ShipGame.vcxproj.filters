@@ -57,6 +57,9 @@
     <FxCompile Include="VertexShader.hlsl">
       <Filter>shader</Filter>
     </FxCompile>
+    <FxCompile Include="WaterTest.hlsl">
+      <Filter>shader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -113,6 +116,9 @@
     <ClInclude Include="Ground.h">
       <Filter>Object\.h</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Object\.h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -158,6 +164,9 @@
       <Filter>描画</Filter>
     </ClCompile>
     <ClCompile Include="Ground.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
       <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>

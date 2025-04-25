@@ -24,7 +24,7 @@ void Camera::Init()
 //=======================================
 void Camera::Update()
 {
-	m_Position.z++;
+	
 }
 
 

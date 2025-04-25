@@ -28,6 +28,9 @@ class Ground : public Object
 		float Timer;       // グローバルタイマー
 		float Padding[3];  // パディングを追加（DirectXでは16バイト単位）
 	};
+	struct HeightMapBufferType {
+
+	};
 
 
 public:
